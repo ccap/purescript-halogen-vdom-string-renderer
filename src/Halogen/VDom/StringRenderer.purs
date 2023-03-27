@@ -4,12 +4,10 @@ module Halogen.VDom.StringRenderer
   ) where
 
 import Prelude
-
 import Data.Array as A
 import Data.Maybe (Maybe, maybe)
 import Data.String as S
 import Data.Tuple (snd)
-
 import Halogen.VDom (VDom(..), ElemName(..), Namespace(..), runGraft)
 import Halogen.VDom.StringRenderer.Util (escape)
 
@@ -20,6 +18,7 @@ data TagType
   | SelfClosingTag
 
 derive instance eqTagType ∷ Eq TagType
+
 derive instance ordTagType ∷ Ord TagType
 
 -- | Renders a `VDom` tree to a string using the specified tag type scheme,
@@ -45,8 +44,12 @@ render getTagType renderAttrs renderWidget = go
   renderElement maybeNamespace elemName@(ElemName name) attrs children =
     let
       as = renderAttrs attrs
+
       as' = maybe as (\(Namespace ns) -> "xmlns=\"" <> escape ns <> "\"" <> if S.null as then "" else " " <> as) maybeNamespace
     in
-      "<" <> name <> (if S.null as' then "" else " ") <> as' <>
-        if A.null children then if getTagType elemName == SelfClosingTag then "/>" else "></" <> name <> ">"
-        else ">" <> S.joinWith "" (map go children) <> "</" <> name <> ">"
+      "<" <> name <> (if S.null as' then "" else " ") <> as'
+        <>
+          if A.null children then
+            if getTagType elemName == SelfClosingTag then "/>" else "></" <> name <> ">"
+          else
+            ">" <> S.joinWith "" (map go children) <> "</" <> name <> ">"

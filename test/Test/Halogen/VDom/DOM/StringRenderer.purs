@@ -44,7 +44,7 @@ testStylesheet =
               ]
               []
           )
-    , expected: "<link rel=\"stylesheet\" type=\"text&#x2F;css\" href=\"styles&#x2F;index.css\"/>"
+    , expected: "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/index.css\"/>"
     }
 
 testScript :: Effect Unit
@@ -58,7 +58,7 @@ testScript =
               ]
               []
           )
-    , expected: "<script src=\"scripts&#x2F;extra.js?a=1&amp;b=2\"></script>"
+    , expected: "<script src=\"scripts/extra.js?a=1&b=2\"></script>"
     }
 
 render :: ∀ i w. VDom.VDom (Array (Prop i)) w -> String

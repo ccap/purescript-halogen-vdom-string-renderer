@@ -9,7 +9,7 @@ import Data.Maybe (Maybe(..))
 import Data.String as S
 import Data.Set as Set
 import Halogen.VDom.StringRenderer as VSR
-import Halogen.VDom.StringRenderer.Util (escape)
+import Halogen.VDom.StringRenderer.Util (attrEscape, escape)
 import Unsafe.Coerce (unsafeCoerce)
 
 render ∷ ∀ i w. (w → String) → VDom (Array (Prop i)) w → String
@@ -31,7 +31,7 @@ renderProp = case _ of
   Ref _ → Nothing
 
 renderAttr ∷ String → String → Maybe String
-renderAttr name value = Just $ escape name <> "=\"" <> escape value <> "\""
+renderAttr name value = Just $ attrEscape name <> "=\"" <> attrEscape value <> "\""
 
 propNameToAttrName ∷ String → String
 propNameToAttrName = case _ of
@@ -41,16 +41,15 @@ propNameToAttrName = case _ of
 
 renderProperty ∷ String → PropValue → Maybe String
 renderProperty name prop = case typeOf (unsafeToForeign prop) of
-  "string"  → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
-  "number"  → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
+  "string" → renderAttr name' $ (unsafeCoerce ∷ PropValue → String) prop
+  "number" → renderAttr name' $ show ((unsafeCoerce ∷ PropValue → String) prop)
   "boolean" → Just $ escape name'
   _ → Nothing
   where
   name' = propNameToAttrName name
 
 voidElements :: Set.Set String
-voidElements =
-  Set.fromFoldable names
+voidElements = Set.fromFoldable names
   where
   names =
     [ "area"

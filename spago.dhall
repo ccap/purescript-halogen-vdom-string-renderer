@@ -13,7 +13,7 @@ to generate this file without the comments in this block.
 { name = "halogen-vdom-string-renderer"
 , dependencies =
   [ "arrays"
-  , "console"
+  , "assert"
   , "effect"
   , "foreign"
   , "halogen-vdom"

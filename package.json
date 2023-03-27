@@ -3,7 +3,7 @@
   "scripts": {
     "clean": "rimraf output && rimraf .pulp-cache",
     "build": "spago build --purs-args '--censor-lib --strict'",
-    "purs-tidy": "node_modules/.bin/purs-tidy format-in-place src/**/*.purs",
+    "purs-tidy": "node_modules/.bin/purs-tidy format-in-place src/**/*.purs && node_modules/.bin/purs-tidy format-in-place test/**/*.purs",
     "test": "spago test"
   },
   "dependencies": {
